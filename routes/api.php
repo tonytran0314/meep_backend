@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-Route::get('/', function () {
-    return 'This is Laravel API';
+Route::prefix('v1')->group(function() {
+    Route::get('/hello', function () {
+        return 'This is Laravel API';
+    });
 });

@@ -22,4 +22,8 @@ class Conversation extends Model
     public function messages(): HasMany {
         return $this->hasMany(Message::class);
     }
+
+    public function scopeCurrent($query, $conversationId) {
+        return $query->where('id', $conversationId);
+    }
 }

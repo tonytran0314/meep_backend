@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Events\MessageEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\ConversationResource;
-use App\Http\Resources\V1\MessageResouce;
+use App\Http\Resources\V1\MessageResource;
 use App\Models\User;
 use App\Models\Message;
 use App\Models\Conversation;
@@ -36,7 +36,7 @@ class MessageController extends Controller
         $newMessage->content = $request->content;
         $newMessage->save();
 
-        MessageEvent::dispatch(new MessageResouce($newMessage));
+        MessageEvent::dispatch(new MessageResource($newMessage));
     }
 
     public function getMessages(Request $request, $conversationId) {
@@ -44,6 +44,6 @@ class MessageController extends Controller
         // IF THE USER SCROLL UP TO SEE THE PREVIOUS MESSAGES, THEN SEND A REQUEST TO LOAD NEXT 20 MESSAGES
 
         // REMEMBER TO CHECK IF THE USER WHO IS REQUESTING THE CONVERSION BELONG TO THAT CONVERSION OR NOT
-        return MessageResouce::collection(Message::conversation($conversationId)->get());
+        return MessageResource::collection(Message::conversation($conversationId)->get());
     }
 }

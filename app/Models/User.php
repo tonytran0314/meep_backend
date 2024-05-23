@@ -21,7 +21,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
+        'display_name',
+        'identify_number',
         'email',
         'password',
     ];
@@ -55,5 +57,9 @@ class User extends Authenticatable
 
     public function conversations(): BelongsToMany {
         return $this->belongsToMany(Conversation::class);
+    }
+
+    public function scopeUsername($query, $username) {
+        return $query->where('username', $username);
     }
 }

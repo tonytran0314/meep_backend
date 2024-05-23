@@ -39,18 +39,19 @@ class AuthController extends Controller
         $request->validated($request->all());
         
         $identify_number = $this->identify_number_generator($request->username);
+        
+        if ($identify_number === null) {
+            return $this->error(null, 'The username has already taken', 422);
+        };
 
-        $user = User::create([
+        User::create([
             'username' => $request->username,
             'identify_number' => $identify_number,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
 
-        return $this->success([
-            // 'user' => $user,
-            // 'token' => $user->createToken('API Token of ' . $user->name)->plainTextToken
-        ]);
+        return $this->success([]);
     }
 
     public function logout(Request $request) {
@@ -62,15 +63,6 @@ class AuthController extends Controller
     }
 
     private function identify_number_generator($username) {
-        $error = array(
-            "message" => "The username has already been taken",
-            "errors" => array(
-                "username" => array(
-                    "The username has already been taken."
-                )
-            )
-        );
-        
         // [1,2,3,..., 9999]
         $allId = range($this->MIN_COUNT_ONE_USERNAME, $this->MAX_COUNT_ONE_USERNAME);
         
@@ -81,7 +73,7 @@ class AuthController extends Controller
 
         // full ID
         if(count($existedIds) === $this->MAX_COUNT_ONE_USERNAME) {
-            return $error;
+            return null;
         }
 
         // remove common elements in 2 arrays if no ID exists

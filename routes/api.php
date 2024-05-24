@@ -12,6 +12,7 @@ Route::prefix('v1')->group(function() {
 
     Route::middleware('auth:sanctum')->group(function() {
         Route::get('/my_profile', [UserController::class, 'myProfile']);
+        Route::post('/update_profile', [UserController::class, 'updateProfile']);
 
         Route::get('/conversations', [MessageController::class, 'conversations']);
         Route::get('/messages/{conversationId}', [MessageController::class, 'getMessages']);

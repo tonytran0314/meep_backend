@@ -23,7 +23,8 @@ class UpdateProfileRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string', 'email'],
-            'display_name' => ['required', 'string', 'max:255']
+            'display_name' => ['required', 'string', 'max:255'],
+            'avatar' => ['image']
         ];
     }
 }

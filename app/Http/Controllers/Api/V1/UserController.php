@@ -8,6 +8,7 @@ use App\Http\Resources\V1\UserResource;
 use Illuminate\Http\Request;
 use App\Traits\HttpResponses;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -15,8 +16,6 @@ class UserController extends Controller
 
     // SHOULD BE RESOURCE index, update, ...
 
-    // cái hàm này quá tào lao, không cần thiết, 
-    // vì cứ có request là truy cập user được mà :) ngu
     public function myProfile(Request $request) {
         return new UserResource($request->user());
     }
@@ -26,11 +25,14 @@ class UserController extends Controller
         $request->validated($request->all());
 
         $userId = $request->user()->id;
-
         $profile = User::find($userId);
 
         $profile->email = $request->email;
         $profile->display_name = $request->display_name;
+        if($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar')->store('public');
+            $profile->avatar = $avatar;
+        } 
         $profile->save();
 
         return $this->success([]);

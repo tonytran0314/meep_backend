@@ -37,5 +37,9 @@ class ConversationUserSeeder extends Seeder
             'conversation_id' => 3,
             'user_id' => 1
         ]);
+        ConversationUser::create([
+            'conversation_id' => 3,
+            'user_id' => 4
+        ]);
     }
 }

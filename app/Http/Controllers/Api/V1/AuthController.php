@@ -39,6 +39,8 @@ class AuthController extends Controller
         
         $request->validated($request->all());
         
+        $default_avatar = 'public/default_avatar.jpg';
+
         $identify_number = $this->identify_number_generator($request->username);
         
         if ($identify_number === null) {
@@ -50,6 +52,7 @@ class AuthController extends Controller
             'identify_number' => $identify_number,
             'display_name' => $request->display_name,
             'email' => $request->email,
+            'avatar' => $default_avatar,
             'password' => Hash::make($request->password)
         ]);
 

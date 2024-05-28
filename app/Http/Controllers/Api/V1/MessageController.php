@@ -21,6 +21,11 @@ class MessageController extends Controller
         return ConversationResource::collection(User::find($user_id)->conversations()->get());
     }
 
+    public function getConversation($conversationId) {
+        $conversation = Conversation::find($conversationId);
+        return new ConversationResource($conversation);
+    }
+
     public function addMessage(Request $request) {
         // REMEMBER TO VALIDATE 
 

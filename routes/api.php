@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\MessageController;
-use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\UserController; 
 
 Route::prefix('v1')->group(function() {
     Route::post('/login', [AuthController::class, 'login']);
@@ -15,6 +15,7 @@ Route::prefix('v1')->group(function() {
         Route::post('/update_profile', [UserController::class, 'updateProfile']);
 
         Route::get('/conversations', [MessageController::class, 'conversations']);
+        Route::get('/conversation/{conversationId}', [MessageController::class, 'getConversation']);
         Route::get('/messages/{conversationId}', [MessageController::class, 'getMessages']);
         Route::post('/add_message', [MessageController::class, 'addMessage']);
 

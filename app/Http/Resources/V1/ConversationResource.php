@@ -17,18 +17,20 @@ class ConversationResource extends JsonResource
     public function toArray(Request $request): array
     {
         $requestingId = $request->user()->id;
-        $avatars = Conversation::find($this->id)->users()->where('id', '<>', $requestingId)->pluck('avatar');
         $members = Conversation::find($this->id)->users()->get();
         
-        $defaultGroupAvatar = '/default_group.jpg';
-
-        // should have another machanism to determine group chat or 1-1 chat
-        $avatar = (count($avatars) < 2) ? $avatars[0] : $defaultGroupAvatar;
-
+        $avatar = ($this->type === 'g') ? 
+        'default_group.jpg' : 
+        Conversation::find($this->id)
+            ->users()
+            ->where('id', '<>', $requestingId)
+            ->value('avatar');
+        
         return [
-            'avatar' => Storage::url($avatar),
             'id' => $this->id,
             'name' => $this->name,
+            'type' => $this->type,
+            'avatar' => Storage::url($avatar),
             'membersNumber' => count($members),
             'members' => UserResource::collection($members),
         ];

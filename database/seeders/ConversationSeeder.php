@@ -14,13 +14,19 @@ class ConversationSeeder extends Seeder
     public function run(): void
     {
         Conversation::create([
-            'name' => 'Conver 1'
+            'name' => 'Conver 1',
+            'type' => 'g',
+            'avatar' => 'public/default_group.jpg'
         ]);
         Conversation::create([
-            'name' => 'Conver 2'
+            'name' => 'Conver 2',
+            'type' => 'a',
+            'avatar' => null
         ]);
         Conversation::create([
-            'name' => 'Conver 3'
+            'name' => 'Conver 3',
+            'type' => 'a',
+            'avatar' => null
         ]);
     }
 }
